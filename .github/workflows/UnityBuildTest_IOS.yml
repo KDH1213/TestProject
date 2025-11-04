@@ -1,4 +1,4 @@
-name: UnityBuildTest
+name: UnityBuildTest_iOS
 
 on:
   workflow_dispatch:
@@ -7,9 +7,9 @@ permissions: write-all
   
 jobs:
   #Job 설정
-  buildForAndroid: 
-    name: Build Android
-    runs-on: ubuntu-latest
+  buildForIOS: 
+    name: Build IOS
+    runs-on: macos-latest
     steps:
 
       # Step1 - Check Out
@@ -37,10 +37,11 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: IOS
+          outputPath: build/iOS
       
       # Step4 - Upload Build File
       - name: Upload Build File
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: Build-Android
-          path: build
+          name: iOS-Build
+          path: build/iOS
