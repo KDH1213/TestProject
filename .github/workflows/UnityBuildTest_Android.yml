@@ -53,7 +53,7 @@ jobs:
           targetPlatform: Android
           projectPath: .
           buildName: AndroidBuild
-          outputPath: Builds/Android
+          outputPath: ${{ github.workspace }}/Builds/Android
           allowDirtyBuild: true
 
       # Step 5 - Upload Build File
