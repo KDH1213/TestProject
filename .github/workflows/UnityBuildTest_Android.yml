@@ -21,7 +21,7 @@ jobs:
 
       # Step2 - Cache Library
       - name: Cache Library
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4
         with: 
           path: Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
@@ -37,6 +37,11 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: Android
+          projectPath: .
+          buildName: AndroidBuild 
+          outputPath: Builds/Android 
+          allowDirtyBuild: true
+          
       
       # Step4 - Upload Build File
       - name: Upload Build File
