@@ -27,18 +27,20 @@ jobs:
           restore-keys: |
             Library-
 
-      # Step 3 - Free up disk space (fix docker rmi issue)
+      # Step 3 - Free up disk space
       - name: Free Disk Space for Android
         run: |
-          sudo swapoff -a
-          sudo rm -f /swapfile
-          sudo apt clean
+          sudo swapoff -a || true
+          sudo rm -f /swapfile || true
+          sudo apt clean || true
           docker rmi "$(docker images -q)" || true
           df -h
           
+      # Step 4 - Create Build Directory
       - name: Create Build Directory
         run: mkdir -p Builds/Android
-      # Step 4 - Unity Build
+
+      # Step 5 - Unity Build
       - name: Unity Build
         uses: game-ci/unity-builder@v4
         env:
@@ -48,13 +50,13 @@ jobs:
         with:
           targetPlatform: Android
           projectPath: .
-          buildName: AndroidBuild
-          outputPath: ${{ github.workspace }}
+          buildName: TestProject
+          buildsPath: Builds/Android
           allowDirtyBuild: true
 
-      # Step 5 - Upload Build File
+      # Step 6 - Upload Build File
       - name: Upload Build File
         uses: actions/upload-artifact@v4
         with:
-          name: AndroidBuild
-          path: .
+          name: TestProject
+          path: Builds/Android
