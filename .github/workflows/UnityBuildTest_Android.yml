@@ -33,10 +33,7 @@ jobs:
           sudo swapoff -a
           sudo rm -f /swapfile
           sudo apt clean
-          if [ -n "$(docker images -q)" ]; then
-            docker rmi $(docker images -q) || true
-          else
-            echo "No Docker images to remove."
+          docker rmi "$(docker images -q)" || true
           df -h
           
       - name: Create Build Directory
