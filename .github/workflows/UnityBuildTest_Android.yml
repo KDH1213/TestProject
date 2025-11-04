@@ -34,7 +34,11 @@ jobs:
           sudo swapoff -a
           sudo rm -f /swapfile
           sudo apt clean
-          docker rmi $(docker images -q)
+          if [ -n "$(docker images -q)" ]; then
+            docker rmi $(docker images -q) || true
+          else
+            echo "No Docker images to remove."
+          fi
           df -h
       # Step3 - Unity Build
       - name: Unity Build
@@ -56,4 +60,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Build-Android
-          path: Builds/Android/app.aab
+          path: Builds/Android/
