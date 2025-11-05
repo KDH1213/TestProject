@@ -7,8 +7,8 @@ permissions: write-all
   
 jobs:
   #Job 설정
-  buildForIOS: 
-    name: Build IOS
+  buildForiOS: 
+    name: Build iOS
     runs-on: macos-latest
     steps:
 
@@ -31,6 +31,9 @@ jobs:
       - name: Create Build Directory
         run: mkdir -p Builds/iOS
 
+      - name: Create Build Directory
+        run: mkdir -p Builds/iOS
+
       # Step3 - Unity Build
       - name: Unity Build
         uses: game-ci/unity-builder@v4
@@ -40,11 +43,14 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: iOS
-          outputPath: build/iOS
+          projectPath: .
+          buildName: TestProject
+          buildsPath: Builds/iOS
+          allowDirtyBuild: true
       
       # Step4 - Upload Build File
       - name: Upload Build File
         uses: actions/upload-artifact@v4
         with:
-          name: iOS-Build
-          path: build/iOS
+          name: TestProject
+          path: Builds/iOS
